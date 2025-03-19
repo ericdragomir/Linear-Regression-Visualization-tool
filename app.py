@@ -45,7 +45,7 @@ class PlotApp:
         self.learning_rate_entry_bgd.pack(padx=5, pady=5)
 
         # Generate Data Button
-        plot_button = tk.Button(control_frame, text="Generate data", command=lambda: self.generate_data(size=self.size_entry.get(), epochs=self.epochs_entry.get()))
+        plot_button = tk.Button(control_frame, text="Generate data", command=lambda: self.generate_data(size=self.size_entry.get()))
         plot_button.pack(padx=5, pady=5)
 
         # Train Models
@@ -109,18 +109,14 @@ class PlotApp:
         self.time_label = tk.Label(control_frame, text="")
         self.time_label.pack(pady=5)
 
-    def generate_data(self, size, epochs):
+    def generate_data(self, size):
         try:
             size = int(size)
-            epochs = int(epochs)
         except ValueError:
             messagebox.showerror("Invalid Input", "Please enter valid numeric values.")
             return
         if size < 2:
             messagebox.showerror("Invalid Input", "Please enter an integer greater than or equal to two.")
-            return
-        elif epochs < 1:
-            messagebox.showerror("Invalid Input", "Please enter an integer greater than or equal to one.")
             return
         self.x = np.random.randn(size)
 
@@ -245,7 +241,10 @@ class PlotApp:
         except ValueError:
             messagebox.showerror("Invalid Input", "Please enter valid numeric values.")
             return
-        
+        if self.epochs < 1:
+            messagebox.showerror("Invalid Input", "Please enter an integer greater than or equal to one.")
+            return
+
         if not hasattr(self, 'x') or not hasattr(self, 'y'):
             messagebox.showerror("Error", "Please generate data first.")
         else:
