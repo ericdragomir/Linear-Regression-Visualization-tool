@@ -3,7 +3,7 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
-import threading
+import time
 
 class PlotApp:
     def __init__(self, root):
@@ -35,12 +35,12 @@ class PlotApp:
         self.epochs_entry.pack(padx=5, pady=5)
 
         # SGD Learning rate
-        tk.Label(control_frame, text="Learning Rate for SGD (0.001 recommended)").pack()
+        tk.Label(control_frame, text="Learning Rate for SGD (0.01 recommended)").pack()
         self.learning_rate_entry_sgd = tk.Entry(control_frame, width=25)
         self.learning_rate_entry_sgd.pack(padx=5, pady=5)
 
         # BGD Learning rate
-        tk.Label(control_frame, text="Learning Rate for BGD (0.01 recommended)").pack()
+        tk.Label(control_frame, text="Learning Rate for BGD (0.1 recommended)").pack()
         self.learning_rate_entry_bgd = tk.Entry(control_frame, width=25)
         self.learning_rate_entry_bgd.pack(padx=5, pady=5)
 
@@ -105,6 +105,9 @@ class PlotApp:
 
         self.loss_sgd_label = tk.Label(control_frame, text="")
         self.loss_sgd_label.pack(pady=5)
+
+        self.time_label = tk.Label(control_frame, text="")
+        self.time_label.pack(pady=5)
 
     def generate_data(self, size, epochs):
         try:
@@ -225,7 +228,8 @@ class PlotApp:
         # self.loss_mae_label.config(text=f"The loss (MAE) is: {0}")
         self.epochs_label.config(text=f"The current epochs is: {self.epoch+1}")
         self.loss_sgd_label.config(text=f"The loss for SGD is: {self.loss_history_sgd[-1]:.5}")
-        self.loss_bgd_label.config(text=f"The loss for BGD is: {self.loss_history_bgd[-1]:.5}")
+        self.loss_bgd_label.config(text=f"The loss for BGD is: {self.loss_history_bgd[-1]:.5}s")
+        self.time_label.config(text=f"Time training: {self.time:.5}")
         # self.weights_label.config(text=f"The real slope was(with some noise): {self.slope} The predicted is: {0}")
         # self.biases_labels.config(text=f"The real bias was(with some noise): {self.intercept} The predicted is: {0}")
         self.root.update_idletasks()
@@ -255,10 +259,12 @@ class PlotApp:
             self.loss_history_sgd = []
             self.loss_history_bgd = []
 
+            start_time = time.time()
             for self.epoch in range(self.epochs):
                 
                 self.train_sgd()
                 self.train_bgd()
+                self.time = time.time() - start_time
                 self.update_ui()
                 
 
