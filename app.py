@@ -319,7 +319,7 @@ class PlotApp:
             # Define the training threads
             def train_sgd():
                 self.convergence_sgd_label.config(text="")
-                self.time_bgd_label.config(text="")
+                self.time_sgd_label.config(text="")
                 self.convergence_sgd = False
                 init_time = time.time()
                 for self.epoch_sgd in range(self.epochs):
