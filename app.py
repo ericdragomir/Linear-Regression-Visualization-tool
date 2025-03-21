@@ -338,7 +338,7 @@ class PlotApp:
                     self.convergence_sgd_label.config(text=f"SGD did not converge")
 
             def train_bgd():
-                self.convergence_sgd_label.config(text="")
+                self.convergence_bgd_label.config(text="")
                 self.time_bgd_label.config(text="")
                 self.convergence_bgd = False
                 init_time = time.time()
